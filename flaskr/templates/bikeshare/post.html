@@ -18,6 +18,10 @@
         <a class="action" href="{{ url_for('bikeshare.update', id=post['id']) }}">Edit</a>
       {% endif %}
     </header>
+    <p class="info">{{ post['make'] }}</p>
+    <p class="info">{{ post['model'] }}</p>
+    <p class="info">{{ post['type'] }}</p>
+    <p class="info">{{ post['year'] }}</p>
     <p class="body">{{ post['body'] }}</p>
   </article>
 

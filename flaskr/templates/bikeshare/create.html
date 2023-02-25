@@ -8,6 +8,14 @@
   <form method="post">
     <label for="title">Title</label>
     <input name="title" id="title" value="{{ request.form['title'] }}" required>
+    <label for="make">Make</label>
+    <input name="make" id="make" value="{{ request.form['make'] }}">
+    <label for="model">Model</label>
+    <input name="model" id="model" value="{{ request.form['model'] }}">
+    <label for="type">Type</label>
+    <input name="type" id="type" value="{{ request.form['type'] }}">
+    <label for="year">Year of Manufacture</label>
+    <input name="year" id="year" value="{{ request.form['year'] }}">
     <label for="body">Body</label>
     <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
     <input type="submit" value="Save">

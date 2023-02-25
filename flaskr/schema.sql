@@ -15,3 +15,16 @@ CREATE TABLE post (
   body TEXT NOT NULL,
   FOREIGN KEY (author_id) REFERENCES user (id)
 );
+
+CREATE TABLE bike (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  owner_id INTEGER NOT NULL,
+  post_id INTEGER NOT NULL,
+  make TEXT,
+  model TEXT,
+  type TEXT,
+  year INT,
+  FOREIGN KEY (owner_id) REFERENCES user (id),
+  FOREIGN KEY (post_id) REFERENCES post (id)
+);
+
