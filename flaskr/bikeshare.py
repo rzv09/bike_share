@@ -24,6 +24,10 @@ def create():
     if request.method == 'POST':
         title = request.form['title']
         body = request.form['body']
+        make = request.form['make']
+        model = request.form['model']
+        year = request.form['year']
+        bike_type = request.form['type']
         error = None
 
         if not title:
@@ -33,10 +37,15 @@ def create():
             flash(error)
         else:
             db = get_db()
-            db.execute(
+            post_id = db.execute(
                 'INSERT INTO post (title, body, author_id)'
-                ' VALUES (?, ?, ?)',
+                ' VALUES (?, ?, ?) RETURNING post.id',
                 (title, body, g.user['id'])
+            ).fetchone()
+            print(post_id['id'])
+            db.execute(
+                'INSERT INTO bike (post_id, owner_id, make, model, year, type)'
+                ' VALUES (?, ?, ?, ?, ?, ?)', (int(post_id['id']), g.user['id'], make, model, year, bike_type)
             )
             db.commit()
             return redirect(url_for('bikeshare.index'))
@@ -61,7 +70,18 @@ def get_post(id, check_author=True):
 
 @bp.route('/<int:id>/view', methods=["GET"])
 def view(id):
-    post = get_post(id, check_author=False)
+    post = get_db().execute(
+        'SELECT post.id, post.title, post.body, post.created, post.author_id, user.username,'
+        ' bike.make, bike.model, bike.type, bike.year'
+        ' FROM post'
+        ' JOIN user ON user.id = post.author_id'
+        ' JOIN bike on bike.post_id = post.id'
+        ' WHERE post.id = ?',
+        (id,)
+    ).fetchone()
+    if post is None:
+        abort(404, f"Post id {id} doesn't exist.")
+
     return render_template('bikeshare/post.html', post=post)
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
