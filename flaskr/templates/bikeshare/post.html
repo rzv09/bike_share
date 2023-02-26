@@ -15,7 +15,7 @@
             
         <div class="card-body">
            <img src="{{ url_for('static', filename=post['image']) }}" class="card-img-top" alt="...">
-            <div class="card-title">
+            <div class="card-title mt-1">
                 <h1><a class="card-link" href="{{url_for('bikeshare.view', id=post['id']) }}"> {{ post['title'] }}</a></h1>
             </div>
         </div>
