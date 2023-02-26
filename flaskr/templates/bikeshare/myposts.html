@@ -46,7 +46,9 @@
         </ul> 
 
         <div class="card-body">
+          {% if post['body'] %}
             <p class="card-text">{{ post['body'] }}</p>
+          {% endif %}
         </div>
 
         <div class="card-body">                        
