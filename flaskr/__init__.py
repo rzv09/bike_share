@@ -3,6 +3,12 @@ import os
 from flask import Flask
 
 
+
+from os.path import join, dirname, realpath
+
+
+UPLOAD_FOLDER = join(dirname(realpath(__file__)), 'static/')
+
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -10,6 +16,7 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
