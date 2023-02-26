@@ -18,6 +18,18 @@ def index():
     ).fetchall()
     return render_template('bikeshare/index.html', posts=posts)
 
+@bp.route('/myposts')
+def my_posts():
+    db = get_db()
+    posts = db.execute(
+        'SELECT p.id, title, body, created, author_id, username'
+        ' FROM post p JOIN user u ON p.author_id = u.id'
+        ' WHERE author_id = ?'
+        ' ORDER BY created DESC',
+        (g.user['id'],)
+    ).fetchall()
+    return render_template('bikeshare/myposts.html', posts=posts)
+
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
 def create():
