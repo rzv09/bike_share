@@ -131,10 +131,22 @@ def update(id):
             flash('No file part')
             return redirect(request.url)
         file = request.files['image']
-
+        sql = """UPDATE post SET title = ?, body = ?, img = ?
+                WHERE id = ? """
         if file.filename == '':
-            flash('No selected file')
-            return redirect(request.url)
+            sql = """
+                UPDATE post SET title = ?, body = ?
+                WHERE id = ?
+            """
+            db = get_db()
+            db.execute(
+                sql,
+                (title, body, id)
+            )
+            db.commit()
+            return redirect(url_for('bikeshare.index'))
+            # flash('No selected file')
+            # return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             # with current_app.app_context:
@@ -149,8 +161,7 @@ def update(id):
         else:
             db = get_db()
             db.execute(
-                'UPDATE post SET title = ?, body = ?, image = ?'
-                ' WHERE id = ?',
+                sql,
                 (title, body, filename, id)
             )
             db.commit()

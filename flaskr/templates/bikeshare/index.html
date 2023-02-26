@@ -46,11 +46,7 @@
                             {% endif %}
                           </ul> 
                         {% if post['body'] %}
-                            <div class="card-body">
-                                
-                                    <p class="card-text">{{ post['body'] }}</p>
-                                
-                            </div>
+
                         {% endif %}
                         <div class="card-body">                        
                             {% if g.user['id'] == post['author_id'] %}
