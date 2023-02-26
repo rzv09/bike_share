@@ -131,7 +131,7 @@ def update(id):
             flash('No file part')
             return redirect(request.url)
         file = request.files['image']
-        sql = """UPDATE post SET title = ?, body = ?, img = ?
+        sql = """UPDATE post SET title = ?, body = ?, image = ?
                 WHERE id = ? """
         if file.filename == '':
             sql = """
