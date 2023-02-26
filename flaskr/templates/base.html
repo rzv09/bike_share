@@ -15,7 +15,7 @@
         <ul class="navbar-nav">
           {% if g.user %}
             <li class="nav-item">
-              <span class="nav-link"><a style="text-decoration:none" href="{{ url_for('bikeshare.my_posts') }}">{{ g.user['username'] }}</a></span>
+              <a class="nav-link" href="{{ url_for('bikeshare.my_posts') }}">{{ g.user['username'] }}</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('auth.logout') }}">Log Out</a>
