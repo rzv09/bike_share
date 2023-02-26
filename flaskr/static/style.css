@@ -17,6 +17,22 @@
     --bs-btn-active-border-color: #087990;
 }
 
-.card {
-    width: 20rem;
+.card-link {
+    text-decoration: none;
+    color: #087990;
+}
+
+.card-link:hover {
+    color: #066b80;
+    transition: color .15s ease-in-out;
+}
+
+.add-margin {
+    margin-bottom: 3rem;
+}
+
+@media (min-width: 992px) {
+    .add-margin {
+        margin-bottom: 0;
+    }    
 }

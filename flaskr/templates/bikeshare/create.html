@@ -5,22 +5,39 @@
 {% endblock %}
 
 {% block content %}
-  <form method="post" enctype="multipart/form-data">
-    <label for="title">Title</label>
-    <input name="title" id="title" value="{{ request.form['title'] }}" required>
-    <label for="img">Upload</label>
-    <input type="file" name="image" value="{{ request.files['file'] }}">
-    <label for="make">Make</label>
-    <input name="make" id="make" value="{{ request.form['make'] }}">
-    <label for="model">Model</label>
-    <input name="model" id="model" value="{{ request.form['model'] }}">
-    <label for="type">Type</label>
-    <input name="type" id="type" value="{{ request.form['type'] }}">
-    <label for="year">Year of Manufacture</label>
-    <input name="year" id="year" value="{{ request.form['year'] }}">
-    <label for="body">Body</label>
-    <textarea name="body" id="body">{{ request.form['body'] }}</textarea>
-    <input type="submit" value="Save">
+  <form method="post">
+
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input name="title" id="title" class="form-control" value="{{ request.form['title'] }}" required>
+    </div>    
+    <div class ="mb-3">
+          <label for="img">Upload</label>
+          <input type="file" name="image" value="{{ request.files['file'] }}">
+    </div>
+    <div class="mb-3">
+        <label for="make" class="form-label">Make</label>
+        <input name="make" id="make" class="form-control" value="{{ request.form['make'] }}">
+    </div>
+    <div class="mb-3">
+        <label for="model" class="form-label">Model</label>
+        <input name="model" id="model" class="form-control" value="{{ request.form['model'] }}">
+    </div>
+    <div class="mb-3">
+        <label for="type" class="form-label">Type</label>
+        <input name="type" id="type" class="form-control" value="{{ request.form['type'] }}">
+    </div>
+    <div class="mb-3">
+        <label for="year" class="form-label">Year of Manufacture</label>
+        <input name="year" id="year" class="form-control" value="{{ request.form['year'] }}">
+    </div>
+    <div class="mb-3">
+        <label for="body" class="form-label">Body</label>
+        <textarea name="body" id="body" class="form-control">{{ request.form['body'] }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-outline-info btn-lg">Submit</button>
+
   </form>
-  
+
+  <!-- <input type="submit" value="Save"> -->
 {% endblock %}
