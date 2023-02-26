@@ -7,26 +7,41 @@
 {% endblock %}
 
 {% block content %}
+  
+  <!-- <div class="col-12 col-md-6 {% if posts.index(post) % 2 == 0 %} add-margin {% endif %}"> -->
 
-  <article class="post">
-    <header>
-      <div>
-        <h1><a class="action" href="{{url_for('bikeshare.view', id=post['id']) }}"> {{ post['title'] }}</a></h1>
-        
-      </div>
-      {% if g.user['id'] == post['author_id'] %}
-        <a class="action" href="{{ url_for('bikeshare.update', id=post['id']) }}">Edit</a>
-      {% endif %}
-    </header>
-    <!-- img -->
-    <div>
-        <img src="{{ url_for('static', filename=post['image']) }}" class="card-img-top" alt="...">
+    <div class="post card">
+        <div class="card-header">
+            by {{ post['username'] }} on {{ post['created'].strftime('%Y-%m-%d') }}
+        </div>
+            
+        <div class="card-body">
+           <img src="{{ url_for('static', filename=post['image']) }}" class="card-img-top" alt="...">
+            <div class="card-title">
+                <h1><a class="card-link" href="{{url_for('bikeshare.view', id=post['id']) }}"> {{ post['title'] }}</a></h1>
+            </div>
+        </div>
+    
+        <div class="card-body">
+            <p class="card-text">{{ post['body'] }}</p>
+        </div>
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">{{ post['make'] }}</li>
+          <li class="list-group-item">{{ post['model'] }}</li>
+          <li class="list-group-item">{{ post['type'] }}</li>
+          <li class="list-group-item">{{ post['year'] }}</li>
+          <li class="list-group-item">{{ post['body'] }}</li>
+        </ul>      
+
+        <div class="card-body">                        
+            {% if g.user['id'] == post['author_id'] %}
+            <a class="action btn btn-outline-secondary mt-1" href="{{ url_for('bikeshare.update', id=post['id']) }}" style="--bs-btn-padding-y: .125rem; --bs-btn-padding-x: 1rem; --bs-btn-font-size: .75rem;">Edit</a>
+            {% endif %}
+        </div>
     </div>
-    <p class="info">{{ post['make'] }}</p>
-    <p class="info">{{ post['model'] }}</p>
-    <p class="info">{{ post['type'] }}</p>
-    <p class="info">{{ post['year'] }}</p>
-    <p class="body">{{ post['body'] }}</p>
-  </article>
+
+<!-- </div> -->
+
 
 {% endblock %}
