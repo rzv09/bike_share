@@ -30,7 +30,22 @@
                                 <h1><a class="card-link" href="{{url_for('bikeshare.view', id=post['id']) }}"> {{ post['title'] }}</a></h1>
                             </div>
                         </div>
-                    
+                        
+                        <ul class="list-group list-group-flush">
+                            {% if post['make'] %}
+                              <li class="list-group-item h4">Manufacturer: {{ post['make'] }}</li>
+                            {% endif %}
+                            {% if post['model'] %}
+                              <li class="list-group-item h4">Model: {{ post['model'] }}</li>
+                            {% endif %}
+                            {% if post['type'] %}
+                              <li class="list-group-item h4">Type: {{ post['type'] }}</li>
+                            {% endif %}
+                            {% if post['year'] %}
+                              <li class="list-group-item h4">Year: {{ post['year'] }}</li>
+                            {% endif %}
+                          </ul> 
+
                         <div class="card-body">
                             <p class="card-text">{{ post['body'] }}</p>
                         </div>
