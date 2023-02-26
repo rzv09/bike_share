@@ -1,0 +1,22 @@
+.container-fluid {
+    padding: 0;
+}
+
+.vr {
+    width: 2px;
+}
+
+.btn-outline-info {
+    --bs-btn-color: #087990;
+    --bs-btn-border-color: #087990;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #087990;
+    --bs-btn-hover-border-color: #087990;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #087990;
+    --bs-btn-active-border-color: #087990;
+}
+
+.card {
+    width: 20rem;
+}
