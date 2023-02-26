@@ -5,25 +5,20 @@
 {% endblock %}
 
 {% block content %}
-  <!-- <form method="post">
-    <label for="title">Title</label>
-    <input name="title" id="title"
-      value="{{ request.form['title'] or post['title'] }}" required>
-    <label for="body">Body</label>
-    <textarea name="body" id="body">{{ request.form['body'] or post['body'] }}</textarea>
-    <input type="submit" value="Save">
-  </form>
-  <hr> -->
   <form action="{{ url_for('bikeshare.delete', id=post['id']) }}" method="post">
     <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
   </form>
 
-  <form method="post">
+  <form method="post" enctype="multipart/form-data">
 
     <div class="mb-3">
         <label for="title" class="form-label">Title</label>
         <input name="title" id="title" class="form-control" value="{{ request.form['title'] or post['title'] }}" required>
     </div>    
+    <div class ="mb-3">
+      <label for="img">Upload</label>
+      <input type="file" name="image" value="{{ request.files['file'] }}">
+    </div>
     <div class="mb-3">
         <label for="body" class="form-label">Body</label>
         <textarea name="body" id="body" class="form-control">{{ request.form['body'] or post['body'] }}</textarea>

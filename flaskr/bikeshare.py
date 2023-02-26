@@ -127,6 +127,20 @@ def update(id):
         body = request.form['body']
         error = None
 
+        if 'image' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['image']
+
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            # with current_app.app_context:
+        full_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        file.save(full_path)
+
         if not title:
             error = 'Title is required.'
 
@@ -135,9 +149,9 @@ def update(id):
         else:
             db = get_db()
             db.execute(
-                'UPDATE post SET title = ?, body = ?'
+                'UPDATE post SET title = ?, body = ?, image = ?'
                 ' WHERE id = ?',
-                (title, body, id)
+                (title, body, filename, id)
             )
             db.commit()
             return redirect(url_for('bikeshare.index'))
