@@ -11,6 +11,10 @@
         <label for="title" class="form-label">Title</label>
         <input name="title" id="title" class="form-control" value="{{ request.form['title'] }}" required>
     </div>    
+    <div class ="mb-3">
+          <label for="img">Upload</label>
+          <input type="file" name="image" value="{{ request.files['file'] }}">
+    </div>
     <div class="mb-3">
         <label for="make" class="form-label">Make</label>
         <input name="make" id="make" class="form-control" value="{{ request.form['make'] }}">

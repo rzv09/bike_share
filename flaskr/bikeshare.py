@@ -1,18 +1,21 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for, current_app
 )
 from werkzeug.exceptions import abort
+from werkzeug.utils import secure_filename
 
 from flaskr.auth import login_required
 from flaskr.db import get_db
+import os
 
 bp = Blueprint('bikeshare', __name__)
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 @bp.route('/')
 def index():
     db = get_db()
     posts = db.execute(
-        'SELECT p.id, title, body, created, author_id, username'
+        'SELECT p.id, title, body, created, author_id, username, image'
         ' FROM post p JOIN user u ON p.author_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
@@ -22,13 +25,17 @@ def index():
 def my_posts():
     db = get_db()
     posts = db.execute(
-        'SELECT p.id, title, body, created, author_id, username'
+        'SELECT p.id, title, body, created, author_id, username, image'
         ' FROM post p JOIN user u ON p.author_id = u.id'
         ' WHERE author_id = ?'
         ' ORDER BY created DESC',
         (g.user['id'],)
     ).fetchall()
     return render_template('bikeshare/myposts.html', posts=posts)
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @bp.route('/create', methods=('GET', 'POST'))
 @login_required
@@ -41,7 +48,21 @@ def create():
         year = request.form['year']
         bike_type = request.form['type']
         error = None
+        # check if the post request has the file part
+        print(request.files)
+        if 'image' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['image']
 
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            # with current_app.app_context:
+        full_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+        file.save(full_path)
         if not title:
             error = 'Title is required.'
 
@@ -50,9 +71,9 @@ def create():
         else:
             db = get_db()
             post_id = db.execute(
-                'INSERT INTO post (title, body, author_id)'
-                ' VALUES (?, ?, ?) RETURNING post.id',
-                (title, body, g.user['id'])
+                'INSERT INTO post (title, body, author_id, image)'
+                ' VALUES (?, ?, ?, ?) RETURNING post.id',
+                (title, body, g.user['id'], filename)
             ).fetchone()
             print(post_id['id'])
             db.execute(
@@ -84,7 +105,7 @@ def get_post(id, check_author=True):
 def view(id):
     post = get_db().execute(
         'SELECT post.id, post.title, post.body, post.created, post.author_id, user.username,'
-        ' bike.make, bike.model, bike.type, bike.year'
+        ' post.image, bike.make, bike.model, bike.type, bike.year'
         ' FROM post'
         ' JOIN user ON user.id = post.author_id'
         ' JOIN bike on bike.post_id = post.id'

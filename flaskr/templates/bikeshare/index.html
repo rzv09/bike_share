@@ -25,7 +25,7 @@
                         </div>
                             
                         <div class="card-body">
-                            <!-- <img src="..." class="card-img-top" alt="..."> -->
+                           <img src="{{ url_for('static', filename=post['image']) }}" class="card-img-top" alt="...">
                             <div class="card-title">
                                 <h1><a class="card-link" href="{{url_for('bikeshare.view', id=post['id']) }}"> {{ post['title'] }}</a></h1>
                             </div>
@@ -55,5 +55,5 @@
                 {% endif %}
 
             {% endfor %}    
-
+            
 {% endblock %}
