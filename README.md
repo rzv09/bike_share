@@ -8,6 +8,7 @@ Zatsarenko broskis
 # To run
 ## Install the virtual env
 $ python3 -m venv venv
+## Activate the virtual env
 $ . venv/bin/activate
 ## First initialize the database (if running for the first time)
 $ flask --app flaskr init-db
